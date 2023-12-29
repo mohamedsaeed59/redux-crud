@@ -5,7 +5,6 @@ import { createUser } from "../redux/features/UserSlice";
 
 const CreateUser = () => {
   const [values, setValues] = useState({ name: "", email: "" });
-  const [showUser, setShowUser] = useState(false);
   const { name, email } = values;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,14 +13,12 @@ const CreateUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createUser({ name, email }));
-    setValues({ name: "", email: "" });
-    setShowUser(true);
     navigate("/")
   };
 
   return (
     <div>
-      <h1 className="text-center bg-dark text-white p-2">Create User </h1>
+      <h1 className="text-center bg-dark text-white p-2">Create User</h1>
       <form action="">
         <div className="mb-3 mt-4">
         <label htmlFor="floatingTextarea">Add the Name</label>
@@ -54,7 +51,6 @@ const CreateUser = () => {
           </button>
         </div>
       </form>
-      <div className="mt-4">{showUser}</div>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getUser = createAsyncThunk(
-  "user/getUser",
+  "users/getUser",
   async ({id}) => {
       const response = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
       return response.data
@@ -10,29 +10,29 @@ export const getUser = createAsyncThunk(
 )
 
 export const deleteUser = createAsyncThunk(
-  "user/deleteUser", 
+  "users/deleteUser", 
   async ({id}) => {
   await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
 });
 
 export const createUser = createAsyncThunk(
-  "user/createUser",
-  async (name,email) => {
-    const response = await axios.post("https://jsonplaceholder.typicode.com/users", name,email);
+  "users/createUser",
+  async (name, email) => {
+    const response = await axios.post("https://jsonplaceholder.typicode.com/users", name, email);
     console.log('res', response.data);
     return response.data;
   }
 );
 
-export const updateUser = createAsyncThunk("user/updateUser", async (payload) => {
+export const updateUser = createAsyncThunk("users/updateUser", async (payload) => {
   const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${payload.id}`, payload);
   return response.data;
 });
 
 const UserSlice = createSlice({
-  name: "user",
+  name: "users",
   initialState: {
-    user: [],
+    users: [],
     loading: false,
     error: null,
     text: "",
@@ -52,7 +52,7 @@ const UserSlice = createSlice({
     },
     [getUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.user = [action.payload];
+      state.users = [action.payload];
     },
     [getUser.rejected]: (state, action) => {
       state.loading = false;
@@ -63,7 +63,7 @@ const UserSlice = createSlice({
     },
     [deleteUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.user = [action.payload];
+      state.users = [action.payload];
     },
     [deleteUser.rejected]: (state, action) => {
       state.loading = false;
@@ -74,7 +74,7 @@ const UserSlice = createSlice({
     },
     [createUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.user = [action.payload];
+      state.users = [action.payload];
     },
     [createUser.rejected]: (state, action) => {
       state.loading = false;
@@ -85,7 +85,7 @@ const UserSlice = createSlice({
     },
     [updateUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.user = [action.payload];
+      state.users = [action.payload];
     },
     [updateUser.rejected]: (state, action) => {
       state.loading = false;

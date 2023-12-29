@@ -4,23 +4,22 @@ import { setEdit, updateUser } from "../redux/features/UserSlice";
 import { useNavigate } from "react-router-dom";
 import { deleteUser, getUser } from "../redux/features/UserSlice";
 import Spinner from "./Spinner";
+
 const Posts = () => {
   const [id, setId] = useState("");
-  const [textName, setTextName] = useState("");
+  const [textName, setTextName] = useState(""); 
   const [textBody, setTextBody] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, user, body, text, edit } = useSelector((state) => ({
-    ...state.app,
-  }));
+  const { loading, users, body, text, edit } = useSelector((state) => ({...state.app}));
 
-  useEffect(() => {
+ useEffect(() => {
     if (body) {
       setTextBody(body);
     }
   }, [body]);
 
-  useEffect(() => {
+useEffect(() => {
     if (text) {
       setTextName(text);
     }
@@ -33,12 +32,11 @@ const Posts = () => {
       window.alert("Please Enter the ID");
     } else {
       dispatch(getUser({ id }));
-      setId("");
     }
   };
   //delete handler
-  const handleDelete = ({ id }) => {
-    dispatch(deleteUser({ id: user[0].id }));
+  const handleDelete = () => {
+    dispatch(deleteUser({ id: users[0].id }));
     window.location.reload();
     window.alert("Do you want to delete the user?");
   };
@@ -83,11 +81,12 @@ return (
       <Spinner />
     ) : (
   <>
-    {user.length > 0 && (
+    {users.length > 0 && (
       <>
         <div className="card mt-4">
           <div className="card-body">
-            <h5 className="card-title">{user[0].name}</h5>
+            <h5 className="card-title">{users[0].name}</h5>
+            <p className="card-text">{users[0].email}</p>
             {edit ? (
             <>
               <textarea
@@ -108,7 +107,7 @@ return (
                   onClick={() => {
                     dispatch(
                       updateUser({
-                        id: user[0].id,
+                        id: users[0].id,
                         name: textName,
                         email: textBody,
                       })
@@ -130,7 +129,6 @@ return (
             </>
           ) : (
             <>
-              <p className="card-text">{user[0].email}</p>
             </>
           )}
           {!edit && (
@@ -139,7 +137,7 @@ return (
                 className="btn btn-primary"
                 onClick={() =>
                   dispatch(
-                    setEdit({ edit: true, text: user[0].name, body: user[0].email })
+                    setEdit({ edit: true, text: users[0].name, body: users[0].email })
                   )
                 }
               >
